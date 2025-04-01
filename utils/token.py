@@ -3,7 +3,7 @@ import datetime
 from flask import request, jsonify
 from functools import wraps
 
-SECRET_KEY = "sua_chave_secreta"
+SECRET_KEY = "nfaK6*H*xub7JpFfsVxQwMZ#&ffDtu9eHdu2anrxQ8*yabJwyTrorY4$Wjhub9zf"
 
 def token_required(f):
     @wraps(f)
