@@ -27,11 +27,11 @@ def login():
         if response:
             return jsonify(
                 {
-                    'user': response.user.serialize(),
-                    'token': response.token.generate_token()
+                    'user': response["user"].serialize(),
+                    'token': response["token"]
                 }
             ), 200
         else:
-            return jsonify({'error': 'User not found'}), 404
+            return jsonify({'error': 'User not found'}), 401
     except:
         abort(404)

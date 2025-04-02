@@ -1,4 +1,5 @@
-from utils.password import check_password
+from extensions import db
+from utils.password import check_password, hash_password
 from utils.token import generate_token
 
 class AuthenticationController:
@@ -24,9 +25,10 @@ class AuthenticationController:
             return None
         else:
             user = User(
-                name=data["name"],
                 email=data["email"],
-                password=data["password"]
+                password=hash_password(data["password"])
             )
-            user.save()
+            db.session.add(user)
+            db.session.commit()
+
             return user
