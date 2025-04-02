@@ -1,20 +1,28 @@
-from services.MovieSerieService import MovieSerieService
+from models.MovieSerie import MovieSerie
 
 class MovieSerieController:
-    def __init__(self):
-        self.movie_serie_service = MovieSerieService()
-
     def get_all(self):
-        return self.movie_serie_service.get_all()
+        movies_series = MovieSerie.query.all()
+        return [movie_serie.serialize() for movie_serie in movies_series]
 
     def get_by_id(self, id):
-        return self.movie_serie_service.get_by_id(id)
+        movie_serie = MovieSerie.query.filter_by(id=id).first()
+        return movie_serie.serialize() if movie_serie else {}
 
     def create(self, data):
-        return self.movie_serie_service.create(data)
+        pass
 
     def update(self, id, data):
-        return self.movie_serie_service.update(id, data)
+        movie_serie = MovieSerie.query.filter_by(id=id).first()
+        if not movie_serie:
+            return {"message": "Movie/Serie not found"}, 404
+
+        for key, value in data.items():
+            setattr(movie_serie, key, value)
+        movie_serie.save()
 
     def delete(self, id):
-        return self.movie_serie_service.delete(id)
+        MovieSerie.query.filter_by(id=id).delete()
+        return {"message": "Movie/Serie deleted successfully"}
+
+        return rating.serialize()
