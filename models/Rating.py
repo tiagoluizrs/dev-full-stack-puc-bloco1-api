@@ -5,7 +5,6 @@ class Rating(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     rating = db.Column(db.Integer, nullable=False)
-    comment = db.Column(db.Text, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     movie_serie_id = db.Column(db.Integer, db.ForeignKey("movie_serie.id"), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
@@ -18,7 +17,6 @@ class Rating(db.Model):
         return {
             "id": self.id,
             "rating.py": self.rating,
-            "comment": self.comment,
             "user_id": self.user_id,
             "movie_serie_id": self.movie_serie_id,
             "created_at": self.created_at,

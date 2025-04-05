@@ -12,12 +12,12 @@ rating = Blueprint('rating', __name__)
 
 logging.basicConfig(level=logging.DEBUG)
 
-@rating.route('/<id>', methods=['POST', 'PUT', 'PATCH'])
+@rating.route('<id>', methods=['POST'])
 @swag_from(rating_doc)
 @token_required
 def new_or_update_rating(id=None):
     try:
-        response = rating_controller.rating(id, request.json)
+        response = rating_controller.new_rating(id, request.json)
         return jsonify(response)
     except Exception as e:
         logging.error(f"[rating | new_or_update_rating] >> Error in POST or PUT or PATCH request: {e}")
