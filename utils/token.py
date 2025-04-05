@@ -12,6 +12,7 @@ def token_required(f):
         if not token:
             return jsonify({"message": "Token é obrigatório"}), 401
 
+        token = token.split(" ")[1] if " " in token else token  # Remove o prefixo 'Bearer' se presente
         try:
             jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         except jwt.ExpiredSignatureError:
@@ -26,7 +27,7 @@ def token_required(f):
 def generate_token(user_id):
     payload = {
         "user_id": user_id,
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)  # Token expira em 1 hora
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=3)  # Token expira em 1 hora
     }
     token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
     return token

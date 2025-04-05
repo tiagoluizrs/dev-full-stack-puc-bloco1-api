@@ -11,7 +11,7 @@ import os
 
 # Inicialização do app
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 swagger = Swagger(app)
 
 # Configurações do banco de dados
@@ -30,6 +30,6 @@ with app.app_context():
     db.create_all()
 
 
-app.register_blueprint(auth)
-app.register_blueprint(movie_serie)
-app.register_blueprint(rating)
+app.register_blueprint(auth, url_prefix='/api')
+app.register_blueprint(movie_serie, url_prefix='/api/movie-serie')
+app.register_blueprint(rating, url_prefix='/api/rating')

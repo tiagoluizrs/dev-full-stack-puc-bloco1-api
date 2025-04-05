@@ -23,7 +23,7 @@ class MovieSerie(db.Model):
     def __repr__(self):
         return "<MovieSerie %r>" % self.title
 
-    def serializer(self):
+    def serialize(self):
         from models.Rating import Rating
         average_rating = db.session.query(func.avg(Rating.rating)).filter(Rating.movie_serie_id == self.id).scalar()
 

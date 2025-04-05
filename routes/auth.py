@@ -1,3 +1,5 @@
+import logging
+
 from flask import Blueprint, abort, request, jsonify
 from flasgger import Swagger, swag_from
 
@@ -5,7 +7,9 @@ from controllers.AuthenticationController import AuthenticationController
 from docs.auth import register_doc, login_doc
 
 auth_controller = AuthenticationController()
-auth = Blueprint('/', __name__)
+auth = Blueprint('auth', __name__)
+
+logging.basicConfig(level=logging.DEBUG)
 
 @auth.route('/register', methods=['POST'])
 @swag_from(register_doc)
@@ -16,7 +20,8 @@ def register():
             return jsonify(response.serialize()), 201
         else:
             return jsonify({'error': 'User already exists'}), 400
-    except:
+    except Exception as e:
+        logging.error(f"[auth | register] >> Error in POST request: {e}")
         abort(404)
 
 @auth.route('/login', methods=['POST'])
@@ -33,5 +38,6 @@ def login():
             ), 200
         else:
             return jsonify({'error': 'User not found'}), 401
-    except:
+    except Exception as e:
+        logging.error(f"[mauth | login] >> Error in POST request: {e}")
         abort(404)

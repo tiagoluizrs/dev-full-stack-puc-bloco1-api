@@ -1,16 +1,19 @@
-from flask import Blueprint, abort, request, jsonify
-from flasgger import Swagger, swag_from
+import logging
 
-from docs.movie_serie import delete_movie_serie_doc, \
-    update_movie_serie_doc, create_movie_serie_doc, get_movie_serie_doc
+from flask import Blueprint, abort, request, jsonify
+from flasgger import swag_from
+
+from docs.movie_serie import delete_movie_serie_doc, update_movie_serie_doc, create_movie_serie_doc, get_movie_serie_doc
 from utils.token import token_required
 from controllers.MovieSerieController import MovieSerieController
 
 movie_serie_controller = MovieSerieController()
 movie_serie = Blueprint('movie-serie', __name__)
 
-@movie_serie.route('/', methods=['GET'])
-@movie_serie.route('/<id>', methods=['GET'])
+logging.basicConfig(level=logging.DEBUG)
+
+@movie_serie.route('', methods=['GET'])
+@movie_serie.route('<id>', methods=['GET'])
 @swag_from(get_movie_serie_doc)
 @token_required
 def get(id=None):
@@ -18,38 +21,22 @@ def get(id=None):
         if id:
             response = movie_serie_controller.get_by_id(id)
         else:
-            response = movie_serie_controller.get_all()
+            page = request.args.get('page', default=1, type=int)
+            limit = request.args.get('limit', default=10, type=int)
+            type = request.args.get('type', default=None, type=int)
+            response = movie_serie_controller.get_all(page=page, limit=limit, type=type)
         return jsonify(response)
-    except:
+    except Exception as e:
+        logging.error(f"[movie_serie | get] >> Error in GET request: {e}")
         abort(404)
 
-@movie_serie.route('/', methods=['POST'])
+@movie_serie.route('', methods=['POST'])
 @swag_from(create_movie_serie_doc)
 @token_required
 def create():
     try:
         response = movie_serie_controller.create(request.json)
-        return jsonify(response)
-    except:
+        return jsonify(response), 201
+    except Exception as e:
+        logging.error(f"[movie_serie | create] >> Error in POST request: {e}")
         abort(404)
-
-@movie_serie.route('/<id>', methods=['PUT', 'PATCH'])
-@swag_from(update_movie_serie_doc)
-@token_required
-def update(id=None):
-    try:
-        response = movie_serie_controller.update(id, request.json)
-        return jsonify(response)
-    except:
-        abort(404)
-
-@movie_serie.route('/<id>', methods=['DELETE'])
-@swag_from(delete_movie_serie_doc)
-@token_required
-def delete(id=None):
-    try:
-        response = movie_serie_controller.delete(id)
-        return jsonify(response)
-    except:
-        abort(404)
-
