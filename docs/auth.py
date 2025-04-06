@@ -8,7 +8,7 @@ register_doc = {
             "schema": {
                 "type": "object",
                 "properties": {
-                    "username": {"type": "string"},
+                    "email": {"type": "string"},
                     "password": {"type": "string"}
                 }
             }
@@ -21,8 +21,9 @@ register_doc = {
                 "type": "object",
                 "properties": {
                     "id": {"type": "integer"},
-                    "name": {"type": "string"},
-                    "email": {"type": "string"}
+                    "email": {"type": "string"},
+                    "created_at": {"type": "string", "format": "date"},
+                    "updated_at": {"type": "string", "format": "date"},
                 }
             }
         },
@@ -41,7 +42,7 @@ login_doc = {
             "schema": {
                 "type": "object",
                 "properties": {
-                    "username": {"type": "string"},
+                    "email": {"type": "string"},
                     "password": {"type": "string"}
                 }
             }
@@ -57,8 +58,9 @@ login_doc = {
                         "type": "object",
                         "properties": {
                             "id": {"type": "integer"},
-                            "name": {"type": "string"},
-                            "email": {"type": "string"}
+                            "email": {"type": "string"},
+                            "created_at": {"type": "string", "format": "date"},
+                            "updated_at": {"type": "string", "format": "date"},
                         }
                     },
                     "token": {"type": "string"}

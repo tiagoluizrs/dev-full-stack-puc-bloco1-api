@@ -17,8 +17,7 @@ rating_doc = {
                 "type": "object",
                 "properties": {
                     "user_id": {"type": "integer"},
-                    "rating": {"type": "integer"},
-                    "comment": {"type": "string"}
+                    "rating": {"type": "integer"}
                 }
             }
         },

@@ -1,7 +1,7 @@
 from extensions import db
 
 class Rating(db.Model):
-    __tablename__ = "rating.py"
+    __tablename__ = "rating"
 
     id = db.Column(db.Integer, primary_key=True)
     rating = db.Column(db.Integer, nullable=False)
@@ -16,7 +16,7 @@ class Rating(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "rating.py": self.rating,
+            "rating": self.rating,
             "user_id": self.user_id,
             "movie_serie_id": self.movie_serie_id,
             "created_at": self.created_at,
