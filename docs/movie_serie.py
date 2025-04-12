@@ -28,7 +28,7 @@ get_movie_serie_doc = {
             "in": "query",
             "type": "integer",
             "required": False,
-            "description": "Tipo 1 - Filme/2 - Movie/Tudo - Vazio)"
+            "description": "Tipo 1 - Filme/2 - Série/Tudo - Vazio)"
         }
     ],
     "responses": {
